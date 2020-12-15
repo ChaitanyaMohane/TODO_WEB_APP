@@ -1,7 +1,5 @@
 <?php
 
-//update_task.php
-
 include('database_connection.php');
 
 if($_POST["task_list_id"])

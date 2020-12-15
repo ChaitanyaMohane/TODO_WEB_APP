@@ -2,7 +2,6 @@
 // Initialize the session
 session_start();
  
-
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: welcome.php");
     exit;
@@ -11,7 +10,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 
 include('database_connection.php');
  
-
 $username = $password = "";
 $username_err = $password_err = "";
  
@@ -42,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             if($stmt->execute( 
                 array(  
-                'username'     =>     $_POST["username"]
+                'username'     =>     $username
                 )  
             )  
            )
@@ -52,13 +50,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 $count = $stmt->rowCount();  
                 
-               
-                if($count > 0){                    
-                   
-                    $stmt->bindColumn('id', $id);
-                    $stmt->bindColumn('username', $username);
-                    $stmt->bindColumn('password',  $hashed_password);
-                    
+               // $hashed_password=$result['password'];
+
+                if($count > 0){   
+
+                    //  $stmt->bindColumn('id', $id);
+                    //  $stmt->bindColumn('username', $username);
+                    //  $stmt->bindColumn('password',  $hashed_password);
                     
                     if($result){
 
@@ -66,7 +64,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                            
                             session_start();
                             
-                           
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;                            
@@ -136,20 +133,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
 
    <div class="box">
+
     <div class="wrapper">
+
             <h2 class="login">Login</h2>
             <p>Please fill in your credentials to login.</p>
+
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
                 <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                     <span class="help-block"><?php echo $username_err; ?></span>
-                </div>    
+                </div> 
+
                 <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                     <label>Password</label>
                     <input type="password" name="password" class="form-control">
                     <span class="help-block"><?php echo $password_err; ?></span>
                 </div>
+
                 <div class="form-group">
                     <div class="buttons">
                         <input type="submit" class="btn btn-primary" value="Login">
@@ -157,7 +160,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
                 <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
             </form>
+       
         </div>  
    </div>
+
 </body>
 </html>

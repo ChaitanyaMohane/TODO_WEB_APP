@@ -7,6 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: index.php");
     exit;
 }
+
 ?>
 
 <?php
@@ -54,7 +55,6 @@ $result = $statement->fetchAll();
             }
 
            
-
             .container{
                 background-color:lightgrey;
             }
@@ -113,13 +113,12 @@ $result = $statement->fetchAll();
                             $style = '';
                             if($row["task_status"] == 'yes')
                             {
-                            $style = 'text-decoration: line-through';
+                            $style = 'text-decoration: line-through ';
                             }
-                            echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["task_list_id"].'" data-id="'.$row["task_list_id"].'">'.$row["created_at"].' '."....>> ".''.$row["task_details"].' <span class="badge" data-id="'.$row["task_list_id"].'">delete</span></a>';
+                            
+                            echo '<a href="#" style="'.$style.'" class="list-group-item" id="list-group-item-'.$row["task_list_id"].'" data-id="'.$row["task_list_id"].'">'.$row["created_at"].' '."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".''.$row["task_details"].' <span class="badge" data-id="'.$row["task_list_id"].'">delete</span></a>';
                         }
             ?>
-
-
 
 
             </div>
@@ -141,7 +140,8 @@ $result = $statement->fetchAll();
  $(document).ready(function(){
   
   $(document).on('submit', '#to_do_form', function(event){
-   event.preventDefault();
+  
+    event.preventDefault();
 
    if($('#task_name').val() == '')
    {
@@ -176,14 +176,14 @@ $result = $statement->fetchAll();
   $(document).on('click', '.list-group-item', function(){
    var task_list_id = $(this).data('id');
    $.ajax({
-    url:"update_task.php",
+    url:"update_status.php",
     method:"POST",
     data:{task_list_id:task_list_id},
     success:function(data)
     {
      $('#list-group-item-'+task_list_id).css('text-decoration', 'line-through');
     }
-   })
+   })   
   });
 
   

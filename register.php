@@ -9,7 +9,7 @@ $username_err = $password_err = $confirm_password_err = "";
 // Process when form submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
- 
+
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
     } else{
@@ -23,7 +23,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 'username'     =>     $_POST["username"]
                 )  
             ) 
-           ){ $result = $stmt->fetch();
+           )
+           { 
+            
+            $result = $stmt->fetch();
 
             $count = $stmt->rowCount();  
             
@@ -75,16 +78,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindValue(':password', $param_password, PDO::PARAM_STR);
           
             
-            echo $param_password;
+            //echo $param_password;
           
             if($stmt->execute(
                 array(  
-                    'username'     =>     $_POST["username"],
+                    'username'     =>     $param_username,
                     'password'     =>     $param_password
                     )  
             )){
              
                 header("location: index.php");
+
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -133,25 +137,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div class="box">
+
         <div class="wrapper">
+
             <h2 class="Signup">Sign Up</h2>
             <p>Please fill this form to create an account.</p>
+
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
                 <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                     <span class="help-block"><?php echo $username_err; ?></span>
-                </div>    
+                </div>
+
                 <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                     <label>Password</label>
                     <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
                     <span class="help-block"><?php echo $password_err; ?></span>
                 </div>
+
                 <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
                     <label>Confirm Password</label>
                     <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
                     <span class="help-block"><?php echo $confirm_password_err; ?></span>
                 </div>
+                
                 <div class="form-group">
                     <div class="buttons">
                             <input type="submit" class="btn btn-primary" value="Submit">
@@ -161,7 +172,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
                 <p>Already have an account? <a href="index.php">Login here</a>.</p>
             </form>
+        
         </div>    
+    
     </div>
+
 </body>
 </html>

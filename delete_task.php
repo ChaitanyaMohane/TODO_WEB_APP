@@ -23,6 +23,4 @@ if($_POST["task_list_id"])
  }
 }
 
-
-
 ?>
